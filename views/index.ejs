@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='../public/bootstrap/css/bootstrap.css' />
+    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
     <script src="../javascripts/angular.js"></script>
@@ -10,7 +10,11 @@
     <script src="../stylesheets/bootstrap/js/bootstrap.js"></script>
   </head>
   <body ng-app="CloudApp">
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <!--Container for the entire page-->
+    <div ng-controller="cloudCtrl" class="container-fluid">
+      <div class="navbar navbar-inverse">
+
+      </div>
+    </div>
   </body>
 </html>
