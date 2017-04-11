@@ -9,12 +9,63 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="../stylesheets/bootstrap/js/bootstrap.js"></script>
   </head>
-  <body ng-app="CloudApp">
+  <body ng-app="CloudApp" ng-controller="cloudCtrl">
   <!--Container for the entire page-->
-    <div ng-controller="cloudCtrl" class="container-fluid">
-      <div class="navbar navbar-inverse">
+
+      <nav class="navbar-fixed-top navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">UML Modelling</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Grader</a></li>
+
+          </ul>
+          <button type="button" class="btn btn-default navbar-btn navbar-right">Sign in</button>
+          <!--<div class="col-md-offset-10 col-md-2">
+              <button type="button" class="btn btn-primary">Primary</button>
+            </div>-->
+        </div>
+      </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-2">
+        <h4>Select .txt file<span class="label label-default"></span></h4>
 
       </div>
+      <div class="col-md-5">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Browse</button>
+      </span>
+        </div>
+
+      </div>
+
+      <div class="col-md-1">
+        <button class="btn btn-default" type="button">Generate</button>
+
+      </div>
+
     </div>
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-primary" ng-hide="true">
+          <div class="panel-heading">
+
+          </div>
+          <div class="panel-body">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </body>
 </html>
