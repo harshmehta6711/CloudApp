@@ -2,12 +2,17 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
 
-    <script src="../javascripts/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="../stylesheets/bootstrap/js/bootstrap.js"></script>
+      <link rel='stylesheet' href='/stylesheets/style.css' />
+      <link rel="stylesheet" href='/bootstrap/css/bootstrap.css'/>
+
+      <script src="../javascripts/angular.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="../stylesheets/bootstrap/js/bootstrap.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-social.css">
+      <script src="../angularjs/cloudapp.js"></script>
+
   </head>
   <body ng-app="CloudApp" ng-controller="cloudCtrl">
   <!--Container for the entire page-->
@@ -39,9 +44,9 @@
       </div>
       <div class="col-md-5">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for...">
+          <input type="file" class="form-control" placeholder="Search for...">
           <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Browse</button>
+        <!--<button class="btn btn-default" type="button">Browse</button>-->
       </span>
         </div>
 
@@ -53,15 +58,29 @@
       </div>
 
     </div>
-    <div class="row">
+    <div class="row" ng-show="false" >
       <div class="col-md-offset-2 col-md-8">
-        <div class="panel panel-primary" ng-hide="true">
+        <div class="panel panel-primary" >
           <div class="panel-heading">
-
+            UML Diagram
           </div>
           <div class="panel-body">
 
           </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-hide="false">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            Grading
+          </div>
+          <div class="panel-body">
+
+          </div>
+
         </div>
       </div>
     </div>
