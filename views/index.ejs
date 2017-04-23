@@ -44,7 +44,8 @@
       </div>
       <div class="col-md-5">
         <div class="input-group">
-         <input type="file" file-model="fileUpload" class="form-control" placeholder="Search for...">
+         <input type="file" ng-model="fileUpload" name="uploads[]" file-model="fileUpload" class="form-control" placeholder="Search for...">
+            <input type="file" fileinput="file" />
           <!--<input type="file" onchange="" multiple/>-->
           <span class="input-group-btn">
         <button class="btn btn-default" ng-click="uploadFile()" type="button">Upload</button>
