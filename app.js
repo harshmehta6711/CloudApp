@@ -60,7 +60,9 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 
-
+var upload = multer({
+  storage: storage
+}).single('file');
 
 
 // app.post('/upload', function(req, res){
@@ -139,47 +141,50 @@ app.get('/users', user.list);
 //     console.log('Photo Uploaded');
 //   })
 // });
-app.post('/fileUpload', function(req, res){
-  // exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+req.file.originalname+'"', function (error, stdout, stderr){
-  //         if(stdout !== null) {
-  //           console.log("stdout -> "+stdout);
-  //           fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
-  //             if(error)
-  //             {
-  //               res.setHeader("Content-Type", "text/plain" );
-  //               res.writeHead(500);
-  //               res.write(error + "\n");
-  //               res.end("error");
-  //             }
-  //             else
-  //             {
-  //               var img = fs.readFileSync(__dirname + "\\uploads\\example.png");
-  //               //console.log('going inside'+img);
-  //               //res.writeHead(200, {"Content-Type" : "image/png" });
-  //               //res.write(img, "binary" );
-  //               //res.end(img, "binary");
-  //               res.end(__dirname + "\\uploads\\example.png");
-  //             }
-  //           });
-  //         }
-  //         if(stderr !== null) {
-  //           console.log("stderr -> "+stderr.length+" "+stderr);
-  //         }
-  //         if(error !== null){
-  //           console.log("Error -> "+error);
-  //         }
-  //       });
 
-  var upload = multer({
-    storage: storage
-  }).single('file');
+
+app.post('/fileUpload', function(req, res){
+  console.log(req.param('file.originalname'));
+
+
+
   upload(req, res, function(err) {
+
     console.log('this is executed: 1');
+    exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+req.param('file.originalname')+'"', function (error, stdout, stderr){
+      if(stdout !== null) {
+        console.log("stdout -> "+stdout);
+        fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
+          if(error)
+          {
+            res.setHeader("Content-Type", "text/plain" );
+            res.writeHead(500);
+            res.write(error + "\n");
+            res.end("error");
+          }
+          else
+          {
+            var img = fs.readFileSync(__dirname + "\\uploads\\example.png");
+            //console.log('going inside'+img);
+            //res.writeHead(200, {"Content-Type" : "image/png" });
+            //res.write(img, "binary" );
+            //res.end(img, "binary");
+            res.end(__dirname + "\\uploads\\example.png");
+          }
+        });
+      }
+      if(stderr !== null) {
+        console.log("stderr -> "+stderr.length+" "+stderr);
+      }
+      if(error !== null){
+        console.log("Error -> "+error);
+      }
+    });
     res.end('File is uploaded')
-  })
+  });
   //console.log(req.body); // form fields
   console.log('./uploads/');
-  console.log(req.files); // form files
+  //console.log(req.files); // form files
   res.status(204).end();
 });
 
