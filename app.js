@@ -146,8 +146,6 @@ var upload = multer({
 app.post('/fileUpload', function(req, res){
   console.log(req.param('file.originalname'));
 
-
-
   upload(req, res, function(err) {
 
     console.log('this is executed: 1');
