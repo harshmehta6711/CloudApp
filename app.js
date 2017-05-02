@@ -144,11 +144,12 @@ var upload = multer({
 
 
 app.post('/fileUpload', function(req, res){
-  console.log(req.param('file.originalname'));
+  //console.log(req.body);
 
   upload(req, res, function(err) {
 
     console.log('this is executed: 1');
+
     // exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+req.param('file.originalname')+'"', function (error, stdout, stderr){
     //   if(stdout !== null) {
     //     console.log("stdout -> "+stdout);
