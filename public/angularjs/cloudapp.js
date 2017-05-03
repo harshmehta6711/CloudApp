@@ -17,7 +17,8 @@ cloudapp.directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
-cloudapp.service('fileUpload', ['$http', function ($http) {
+cloudapp.service('fileUpload', ['$http', function ($http,$scope) {
+    //$scope.imgpath='';
     this.uploadFileToUrl = function(file, uploadUrl){
         var fd = new FormData();
         fd.append('file', file);
@@ -25,27 +26,49 @@ cloudapp.service('fileUpload', ['$http', function ($http) {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
-            .success(function(){
+            .success(function(data){
+                if(data.statusCode===204)
+                {
+                    console.log(data.data);
+                    return data.data;
+                }
+
             })
             .error(function(){
             });
     }
 }]);
 
-cloudapp.controller('myCtrl', ['$scope', 'fileUpload', function($scope, fileUpload){
+cloudapp.controller('myCtrl', ['$scope','$http', 'fileUpload', function($scope,$http, fileUpload) {
 
-    $scope.uploadFile = function(){
+    $scope.uploadFile = function () {
         var file = $scope.myFile;
-        console.log('file is ' );
+        console.log('file is ');
         console.dir(file);
         var uploadUrl = "/fileUpload";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
+//        var x=fileUpload.uploadFileToUrl(file, uploadUrl);
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+            .then(function(data){
+                console.log(data);
+                if(data.data.statusCode===204)
+                {
+                    console.log(data.data.data);
+                    $scope.imgpath=data.data.data;
+                }
+
+            },(function(){
+                console.log(data);
+            }));
+        //console.log("path"+x);
+
+
     };
-
 }]);
-
-
-// cloudapp.directive("fileinput", [function() {
 //     return {
 //         scope: {
 //             fileinput: "=",

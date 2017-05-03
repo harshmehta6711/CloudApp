@@ -22,6 +22,7 @@ var multer=require('multer');
 var app = express();
 
 // all environments
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 //app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+var fpath;
 
 var storage = multer.diskStorage({
   destination: function (request, file, callback) {
@@ -42,6 +44,23 @@ var storage = multer.diskStorage({
   },
   filename: function (request, file, callback) {
     console.log(file);
+    fpath="..\\"+file.originalname.substring(0, file.originalname.lastIndexOf('.'))+'.png';
+    console.log(fpath);
+
+
+
+    exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+file.originalname, function (error, stdout, stderr) {
+      if (stdout !== null) {
+        console.log("stdout -> " + stdout);
+      }
+      //fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
+
+
+    });
+
+
+console.log(path.extname(file));
+
     // callback(null, file.originalname)
     callback(null, file.originalname+path.extname(file));
   }
@@ -60,9 +79,9 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 
-var upload = multer({
-  storage: storage
-}).single('file');
+var upload = multer(
+{ storage: storage }
+);
 
 
 // app.post('/upload', function(req, res){
@@ -143,48 +162,52 @@ var upload = multer({
 // });
 
 
-app.post('/fileUpload', function(req, res){
-  //console.log(req.body);
+app.post('/fileUpload', upload.single('file'), function(req, res){
+  console.log(req.body);
+  console.log(req.file);
 
-  upload(req, res, function(err) {
-
-    console.log('this is executed: 1');
-
-    // exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+req.param('file.originalname')+'"', function (error, stdout, stderr){
-    //   if(stdout !== null) {
-    //     console.log("stdout -> "+stdout);
-    //     fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
-    //       if(error)
-    //       {
-    //         res.setHeader("Content-Type", "text/plain" );
-    //         res.writeHead(500);
-    //         res.write(error + "\n");
-    //         res.end("error");
-    //       }
-    //       else
-    //       {
-    //         var img = fs.readFileSync(__dirname + "\\uploads\\example.png");
-    //         //console.log('going inside'+img);
-    //         //res.writeHead(200, {"Content-Type" : "image/png" });
-    //         //res.write(img, "binary" );
-    //         //res.end(img, "binary");
-    //         res.end(__dirname + "\\uploads\\example.png");
-    //       }
-    //     });
-    //   }
-    //   if(stderr !== null) {
-    //     console.log("stderr -> "+stderr.length+" "+stderr);
-    //   }
-    //   if(error !== null){
-    //     console.log("Error -> "+error);
-    //   }
-    // });
-    res.end('File is uploaded')
-  });
+                            //                                         upload(req, res, function(err) {
+                            //
+                            //   console.log('this is executed: 1');
+                            //
+                            //   // exec('java -jar "'+__dirname+ '\\sequence\\sequence-10.0.jar" --headless "'+__dirname+'\\uploads\\'+req.param('file.originalname')+'"', function (error, stdout, stderr){
+                            //   //   if(stdout !== null) {
+                            //   //     console.log("stdout -> "+stdout);
+                            //   //     fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
+                            //   //       if(error)
+                            //   //       {
+                            //   //         res.setHeader("Content-Type", "text/plain" );
+                            //   //         res.writeHead(500);
+                            //   //         res.write(error + "\n");
+                            //   //         res.end("error");
+                            //   //       }
+                            //   //       else
+                            //   //       {
+                            //   //         var img = fs.readFileSync(__dirname + "\\uploads\\example.png");
+                            //   //         //console.log('going inside'+img);
+                            //   //         //res.writeHead(200, {"Content-Type" : "image/png" });
+                            //   //         //res.write(img, "binary" );
+                            //   //         //res.end(img, "binary");
+                            //   //         res.end(__dirname + "\\uploads\\example.png");
+                            //   //       }
+                            //   //     });
+                            //   //   }
+                            //   //   if(stderr !== null) {
+                            //   //     console.log("stderr -> "+stderr.length+" "+stderr);
+                            //   //   }
+                            //   //   if(error !== null){
+                            //   //     console.log("Error -> "+error);
+                            //   //   }
+                            //   // });
+                            //   res.end('File is uploaded')
+                            // });
   //console.log(req.body); // form fields
   console.log('./uploads/');
   //console.log(req.files); // form files
-  res.status(204).end();
+  response = {"statusCode":204,"data":fpath};
+  console.log('inside 204');
+  res.send((response));
+  //res.status(204).end();
 });
 
 
