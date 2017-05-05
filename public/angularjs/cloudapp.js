@@ -61,8 +61,7 @@ cloudapp.controller('myCtrl', ['$scope','$http', 'fileUpload', function($scope,$
                     $scope.imgpath=data.data.data;
                 }
 
-            },(function(){
-                console.log(data);
+            },(function(){ console.log(data);
             }));
         //console.log("path"+x);
 

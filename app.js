@@ -1,7 +1,3 @@
-
-/**
- * Module dependencies.
- */
 var connect=require('connect');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
@@ -45,12 +41,12 @@ var storage = multer.diskStorage({
   },
   filename: function (request, file, callback) {
     console.log(file);
-    fpath="..\\"+file.originalname.substring(0, file.originalname.lastIndexOf('.'))+'.png';
+    fpath="..\\input\\"+file.originalname.substring(0, file.originalname.lastIndexOf('.'))+"\\anirrudh.jpeg";
     console.log(fpath);
 
 
     //fs.createReadStream('./uploads/'+file).pipe(unzip.Extract({ path: './input/'+file.originalname.substring(0, file.originalname.lastIndexOf('.')) }));
-    exec('unzip ./uploads/'+file.originalname+' -d ./input/'+file.originalname.substring(0, file.originalname.lastIndexOf('.')),function (error, stdout, stderr) {
+    exec('unzip ./uploads/'+file.originalname+' -d ./public/input/'+file.originalname.substring(0, file.originalname.lastIndexOf('.')),function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
       if (error !== null) {
@@ -61,43 +57,31 @@ var storage = multer.diskStorage({
 
 
     console.log("after unzipping");
-    exec('java -jar "'+__dirname+ '\\classTenant1\\UMLParser.jar" "'+__dirname+'\\input\\'+file.originalname.substring(0, file.originalname.lastIndexOf('.'))+'" "'+__dirname+'\\output\\tenant1"', function (error, stdout, stderr) {
+    exec('java -jar "'+__dirname+ '\\classTenant2\\ani.jar" "'+__dirname+'\\public\\input\\'+file.originalname.substring(0, file.originalname.lastIndexOf('.'))+'"', function (error, stdout, stderr) {
       if (stdout !== null) {
         console.log("stdout -> " + stdout);
       }
       //fs.readFile(__dirname+'\\uploads\\example.png',"binary",function (error,file) {
-
-
     });
 
 
-console.log("path.extname(file)"+path.extname(file.originalname));
-
+console.log("path.extname(file)"+__dirname+ '\\input\\test1\\anirrudh.jpeg');
+//fpath='..\\input\\test1\\anirrudh.jpeg';
     // callback(null, file.originalname)
     callback(null, file.originalname+path.extname(file));
   }
 });
 
-//var upload = multer({storage: storage});
-
-// var upload = multer({ dest: './uploads/'});
-// app.use(multer({ dest: './uploads/'}));
-// development only
 if ('development' == app.get('env')) {
   //app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/tenant1', routes.index);
 app.get('/users', user.list);
-
 
 var upload = multer(
 { storage: storage }
 );
-
-
-
-
 
 app.post('/fileUpload', upload.single('file'), function(req, res){
   console.log(req.body);
@@ -108,14 +92,9 @@ app.post('/fileUpload', upload.single('file'), function(req, res){
   //console.log(req.files); // form files
   response = {"statusCode":204,"data":fpath};
   console.log('inside 204');
-  setTimeout(function(){
-    res.send((response));
-  },10000);
+  res.send((response));
 
-  //res.status(204).end();
 });
-
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
